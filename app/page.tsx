@@ -1,7 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import CryptoCards from "@/components/crypto/CryptoCards";
 import CryptoNews from "@/components/news/CryptoNews";
-import AdBanner from "@/components/ads/AdBanner";
+import AIBrain from "@/components/brain/AIBrain";
 
 export default function Home() {
   return (
@@ -15,19 +15,13 @@ export default function Home() {
           </h1>
 
           <p className="mt-6 text-gray-400">
-            AI Powered Crypto Intelligence + Market Signals
+            Full AI Crypto Intelligence System
           </p>
         </div>
 
-        <AdBanner />
-
         <CryptoCards />
-
-        <AdBanner />
-
         <CryptoNews />
-
-        <AdBanner />
+        <AIBrain />
       </main>
     </>
   );
