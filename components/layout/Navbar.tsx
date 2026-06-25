@@ -16,3 +16,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
+<a href="/dashboard" className="text-sm text-gray-300 hover:text-white">
+  Dashboard
+</a>
