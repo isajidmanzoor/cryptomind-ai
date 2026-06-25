@@ -5,12 +5,24 @@ import { getMarket } from "../../services/coingecko";
 
 export default function CryptoCards() {
   const [coins, setCoins] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getMarket()
-      .then((data) => setCoins(data))
-      .catch(console.error);
+      .then((data) => {
+        setCoins(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return (
+      <div className="text-center mt-20 text-gray-400">
+        Loading market data...
+      </div>
+    );
+  }
 
   return (
     <section className="mx-auto mt-20 grid max-w-7xl grid-cols-1 gap-6 p-6 md:grid-cols-3">
