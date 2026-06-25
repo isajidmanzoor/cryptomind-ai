@@ -7,19 +7,31 @@ export default function CryptoCards() {
   const [coins, setCoins] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const loadData = async () => {
+    try {
+      const data = await getMarket();
+      setCoins(data);
+      setLoading(false);
+    } catch (e) {
+      console.error(e);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    getMarket()
-      .then((data) => {
-        setCoins(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+    loadData();
+
+    const interval = setInterval(() => {
+      loadData();
+    }, 10000); // 🔄 every 10 sec refresh
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
     return (
       <div className="text-center mt-20 text-gray-400">
-        Loading market data...
+        Loading live market...
       </div>
     );
   }
@@ -29,7 +41,7 @@ export default function CryptoCards() {
       {coins.map((coin) => (
         <div
           key={coin.id}
-          className="rounded-xl border border-gray-800 bg-zinc-900 p-6"
+          className="rounded-xl border border-gray-800 bg-zinc-900 p-6 transition hover:scale-105"
         >
           <h2 className="text-xl font-bold">{coin.name}</h2>
 
