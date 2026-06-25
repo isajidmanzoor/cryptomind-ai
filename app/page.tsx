@@ -14,7 +14,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-6 text-gray-400">
-            AI Powered Crypto Intelligence System
+            Real-Time AI Crypto Intelligence Engine
           </p>
         </div>
 
