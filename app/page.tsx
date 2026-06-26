@@ -26,3 +26,12 @@ export default function Home() {
     </>
   );
 }
+
+<div className="text-center mt-10">
+  <a
+    href="/login"
+    className="px-6 py-3 bg-cyan-500 text-black font-bold rounded"
+  >
+    Login / Get Access
+  </a>
+</div>
