@@ -1,38 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPortfolio } from "@/services/user/portfolio";
 
 export default function Dashboard() {
-  const [data, setData] = useState<any[]>([]);
+  const [ai, setAi] = useState<any>(null);
+  const [signal, setSignal] = useState<any>(null);
 
   useEffect(() => {
-    // demo user id
-    getPortfolio("demo-user").then(setData).catch(console.error);
+    fetch("/api/ai").then(r => r.json()).then(setAi);
+    fetch("/api/signal").then(r => r.json()).then(setSignal);
   }, []);
 
   return (
-    <main className="min-h-screen bg-black text-white p-10">
-      <h1 className="text-3xl font-bold text-cyan-400">
-        📊 User Dashboard
-      </h1>
+    <div className="p-10 text-white bg-black min-h-screen">
+      <h1 className="text-3xl font-bold">AI Crypto Dashboard</h1>
 
-      <div className="mt-8 space-y-4">
-        {data.length === 0 && (
-          <p className="text-gray-400">No portfolio data yet</p>
-        )}
-
-        {data.map((item, i) => (
-          <div
-            key={i}
-            className="rounded-xl border border-gray-800 bg-zinc-900 p-4"
-          >
-            <pre className="text-sm text-gray-300">
-              {JSON.stringify(item.coins, null, 2)}
-            </pre>
-          </div>
-        ))}
+      <div className="mt-6">
+        <h2 className="text-xl">Market Insight</h2>
+        <p>{ai?.data?.insight}</p>
       </div>
-    </main>
+
+      <div className="mt-6">
+        <h2 className="text-xl">Signal</h2>
+        <p>{signal?.signal?.signal}</p>
+        <p>{signal?.signal?.confidence}%</p>
+        <p>{signal?.signal?.reason}</p>
+      </div>
+    </div>
   );
 }

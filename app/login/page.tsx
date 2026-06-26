@@ -3,37 +3,40 @@
 import { useState } from "react";
 import { supabase } from "@/lib/auth";
 
-export default function Login() {
+export default function LoginPage() {
   const [email, setEmail] = useState("");
 
   const login = async () => {
-    await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithOtp({
       email,
     });
 
-    alert("Check your email for login link!");
+    if (error) {
+      alert(error.message);
+    } else {
+      alert("Magic link sent!");
+    }
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black text-white">
-      <div className="w-96 rounded-xl border border-gray-800 bg-zinc-900 p-6">
-        <h1 className="text-2xl font-bold text-cyan-400">
-          Login to CryptoMind AI
-        </h1>
+    <div className="min-h-screen flex items-center justify-center bg-black text-white">
+      <div className="p-6 border border-gray-700 rounded-xl w-80">
+        <h1 className="text-xl font-bold mb-4">Login</h1>
 
         <input
-          className="mt-6 w-full rounded bg-black p-3 text-white border border-gray-700"
+          className="w-full p-2 text-black"
           placeholder="Enter email"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         <button
           onClick={login}
-          className="mt-4 w-full rounded bg-cyan-500 p-3 font-bold text-black"
+          className="mt-4 w-full bg-cyan-500 text-black p-2 font-bold"
         >
           Send Magic Link
         </button>
       </div>
-    </main>
+    </div>
   );
 }
