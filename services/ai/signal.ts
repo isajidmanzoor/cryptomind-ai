@@ -1,6 +1,6 @@
 import { getAIAnalysis } from "./groq";
 
-export async function generateSignal(market: any) {
+export async function generateSignal(market: unknown) {
   const ai = await getAIAnalysis(market);
 
   return {

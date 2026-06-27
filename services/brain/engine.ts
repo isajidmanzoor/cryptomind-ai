@@ -1,24 +1,25 @@
+import { getCryptoAIAnalysis } from "@/services/ai/groq";
+import { getPriceCharts } from "@/services/market/prices";
+import { scrapeCryptoNews } from "@/services/news/scraper";
+import { analyzeSentiment } from "@/services/sentiment/analyze";
+
 export async function getAIInsights() {
-  // Fake-but-realistic AI brain layer (we can upgrade to Groq/OpenAI later)
-
-  const marketMood = Math.random() > 0.5 ? "Bullish 📈" : "Bearish 📉";
-
-  const signals = [
-    { coin: "BTC", action: Math.random() > 0.5 ? "BUY" : "HOLD" },
-    { coin: "ETH", action: Math.random() > 0.5 ? "BUY" : "SELL" },
-    { coin: "SOL", action: Math.random() > 0.5 ? "HOLD" : "BUY" },
-  ];
-
-  const insights = [
-    "Whale activity detected in top wallets",
-    "Market reacting to macro liquidity changes",
-    "AI predicts short-term volatility spike",
-    "Institutional inflow increasing in BTC",
-  ];
+  const [news, market] = await Promise.all([scrapeCryptoNews(), getPriceCharts()]);
+  const sentiment = analyzeSentiment(news);
+  const analysis = await getCryptoAIAnalysis({ news, sentiment, market });
+  const signals = market.slice(0, 3).map((asset) => ({
+    coin: asset.symbol,
+    action: analysis.signal,
+    change24h: asset.change24h,
+  }));
 
   return {
-    mood: marketMood,
+    mood: sentiment.mood,
     signals,
-    insights,
+    insights: [
+      analysis.prediction,
+      analysis.reason,
+      ...sentiment.highlights.slice(0, 2),
+    ],
   };
 }

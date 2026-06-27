@@ -1,4 +1,10 @@
-export default function SignalBox({ data }: any) {
+type SignalBoxData = {
+  signal: string;
+  confidence: number;
+  reason: string;
+};
+
+export default function SignalBox({ data }: { data: SignalBoxData }) {
   return (
     <div className="p-4 bg-zinc-900 rounded-xl mt-4">
       <p className="text-white">

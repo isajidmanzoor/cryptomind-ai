@@ -3,8 +3,16 @@
 import { useEffect, useState } from "react";
 import { getMarket } from "../../services/coingecko";
 
+type Coin = {
+  id: string;
+  name: string;
+  current_price: number;
+  price_change_percentage_24h: number;
+  market_cap_rank: number;
+};
+
 export default function CryptoCards() {
-  const [coins, setCoins] = useState<any[]>([]);
+  const [coins, setCoins] = useState<Coin[]>([]);
   const [loading, setLoading] = useState(true);
 
   const loadData = async () => {
@@ -27,9 +35,39 @@ export default function CryptoCards() {
   };
 
   useEffect(() => {
-    loadData();
-    const interval = setInterval(loadData, 10000);
-    return () => clearInterval(interval);
+    let active = true;
+
+    async function loadInitialData() {
+      try {
+        const data = (await getMarket()) as Coin[];
+        const sorted = [...data].sort(
+          (a, b) =>
+            b.price_change_percentage_24h -
+            a.price_change_percentage_24h
+        );
+
+        if (active) {
+          setCoins(sorted);
+          setLoading(false);
+        }
+      } catch (e) {
+        console.error(e);
+
+        if (active) {
+          setLoading(false);
+        }
+      }
+    }
+
+    void loadInitialData();
+    const interval = setInterval(() => {
+      void loadData();
+    }, 10000);
+
+    return () => {
+      active = false;
+      clearInterval(interval);
+    };
   }, []);
 
   if (loading) {

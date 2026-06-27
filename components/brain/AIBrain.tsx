@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { getAIInsights } from "../../services/brain/engine";
 
+type AIInsights = Awaited<ReturnType<typeof getAIInsights>>;
+
 export default function AIBrain() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<AIInsights | null>(null);
 
   useEffect(() => {
     async function run() {

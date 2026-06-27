@@ -1,0 +1,22 @@
+name: CryptoMind AI Pipeline
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger protected publisher
+        env:
+          PIPELINE_URL: ${{ secrets.PIPELINE_URL }}
+          PIPELINE_SECRET: ${{ secrets.PIPELINE_SECRET }}
+        run: |
+          test -n "$PIPELINE_URL"
+          test -n "$PIPELINE_SECRET"
+          curl --fail --show-error --silent \
+            --request POST \
+            --header "Authorization: Bearer ${PIPELINE_SECRET}" \
+            "${PIPELINE_URL}/api/pipeline?lang=en"

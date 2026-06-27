@@ -1,16 +1,11 @@
-import { getMarketSignal } from "@/services/ai/engine";
+import { runCryptoMindPipeline } from "@/services/pipeline/run";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const signal = await getMarketSignal();
+  const data = await runCryptoMindPipeline({ publish: false });
 
   return Response.json({
-    feed: [
-      signal,
-      {
-        signal: "HOLD",
-        confidence: 45,
-        reason: "Market cooling phase",
-      },
-    ],
+    feed: data,
   });
 }

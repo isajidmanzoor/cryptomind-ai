@@ -1,0 +1,25 @@
+{
+  "name": "CryptoMind AI",
+  "short_name": "CryptoMind",
+  "description": "Worldwide AI crypto news, sentiment, airdrops, charts, market signals, and publishing automation.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#070907",
+  "theme_color": "#34d399",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/apple-icon",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

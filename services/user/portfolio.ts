@@ -1,6 +1,11 @@
 import { supabase } from "../../lib/supabase";
 
-export async function savePortfolio(userId: string, coins: any) {
+type PortfolioCoin = {
+  symbol: string;
+  amount: number;
+};
+
+export async function savePortfolio(userId: string, coins: PortfolioCoin[]) {
   const { data, error } = await supabase.from("portfolio").insert([
     {
       user_id: userId,

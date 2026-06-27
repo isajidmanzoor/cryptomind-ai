@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+import { seoDescription, seoKeywords, siteName } from "@/app/seo";
+
+export const metadata: Metadata = {
+  title: "AI Crypto Blog",
+  description: "Daily AI-generated crypto market insights, Bitcoin analysis, altcoin trends, DeFi news, airdrops, and worldwide Web3 research.",
+  keywords: seoKeywords,
+  alternates: {
+    canonical: "/blog",
+  },
+  openGraph: {
+    title: `AI Crypto Blog | ${siteName}`,
+    description: seoDescription,
+    url: "/blog",
+    images: ["/opengraph-image"],
+  },
+};
+
 export default function Blog() {
   return (
     <main className="min-h-screen bg-black text-white p-10">

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { NewsItem } from "@/services/pipeline/types";
 
 export default function CryptoNews() {
-  const [news, setNews] = useState<any[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
 
   useEffect(() => {
     async function load() {
@@ -25,7 +26,7 @@ export default function CryptoNews() {
       {news.map((n, i) => (
         <div key={i} className="p-3 bg-zinc-900 rounded mb-2">
           <p>{n.title}</p>
-          <p className="text-xs text-gray-400">Rank #{n.rank}</p>
+          <p className="text-xs text-gray-400">{n.source}</p>
         </div>
       ))}
     </div>
